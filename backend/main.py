@@ -5,10 +5,8 @@ from typing import List, Optional
 from database import SessionLocal, User, Project, Review, Badge, init_db
 from sqlalchemy.orm import Session
 
-# Создаем приложение FastAPI
 app = FastAPI(title="Project-Тим API", version="1.0.0")
 
-# Добавляем поддержку CORS (для соединения с фронтендом)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -17,10 +15,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# --- Вспомогательные функции ---
-
 def get_db():
-    """Функция для получения сессии базы данных."""
     db = SessionLocal()
     try:
         yield db
@@ -28,7 +23,6 @@ def get_db():
         db.close()
 
 def format_user(user: User) -> dict:
-    """Функция для красивого представления пользователя в JSON."""
     return {
         "id": user.id,
         "full_name": user.full_name,
@@ -47,8 +41,6 @@ def format_user(user: User) -> dict:
         "team_coins": user.team_coins,
         "created_at": str(user.created_at)
     }
-
-# --- Модели Pydantic (описание данных, которые мы ждем от пользователя) ---
 
 class UserCreate(BaseModel):
     full_name: str
@@ -74,8 +66,6 @@ class ReviewCreate(BaseModel):
     deadline_compliance: int
     communication: int
     comment: Optional[str] = None
-
-# --- Эндпоинты API ---
 
 @app.get("/")
 def read_root():
@@ -162,8 +152,4 @@ def create_review(review: ReviewCreate, reviewer_id: int, db: Session = Depends(
         db.commit()
     return {"message": "Отзыв сохранен", "new_rating": reviewee.rating if reviewee else None}
 
-# --- Инициализация БД при запуске ---
-if __name__ == "__main__":
-    init_db()
-    import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=int("8000"))
+init_db()
