@@ -2,7 +2,7 @@ from fastapi import FastAPI, HTTPException, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import List, Optional
-from database import SessionLocal, User, Project, Review, Badge, init_db
+from database import SessionLocal, init_db
 from sqlalchemy.orm import Session
 
 app = FastAPI(title="Project-Тим API", version="1.0.0")
