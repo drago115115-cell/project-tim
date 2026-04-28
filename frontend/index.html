@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project-Тим | Поиск проектных партнеров для студентов</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <span class="logo-icon">🚀</span>
+                <span>Project-Тим</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#" class="active">Главная</a></li>
+                <li><a href="#search">Поиск партнеров</a></li>
+                <li><a href="#projects">Проекты</a></li>
+                <li><a href="#profile">Мой профиль</a></li>
+            </ul>
+            <button class="btn-primary" onclick="showModal('register-modal')">Регистрация</button>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <h1>Найди идеального напарника<br>для своего проекта</h1>
+            <p>Project-Тим — это платформа для поиска проверенных проектных партнеров среди студентов. Навыки, репутация, геймификация — все в одном месте.</p>
+            <div class="hero-buttons">
+                <button class="btn-primary btn-large" onclick="showModal('register-modal')">Начать поиск</button>
+                <button class="btn-secondary btn-large" onclick="document.getElementById('search').scrollIntoView({behavior:'smooth'})">Смотреть партнеров</button>
+            </div>
+            <div class="hero-stats">
+                <div class="stat"><span class="stat-number" id="stat-users">0</span><span>пользователей</span></div>
+                <div class="stat"><span class="stat-number" id="stat-projects">0</span><span>проектов</span></div>
+                <div class="stat"><span class="stat-number">4.8</span><span>средний рейтинг</span></div>
+            </div>
+        </section>
+
+        <section class="features" id="features">
+            <h2>Почему Project-Тим?</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🔍</div>
+                    <h3>Умный поиск</h3>
+                    <p>Находи партнеров по навыкам, роли, вузу и рейтингу. Больше никакого хаоса в чатах.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⭐</div>
+                    <h3>Репутационная система</h3>
+                    <p>Отзывы после каждого проекта формируют честный рейтинг. Забудь о фрирайдерах.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎮</div>
+                    <h3>Геймификация</h3>
+                    <p>Зарабатывай бейджи, повышай уровень, копи тим-койны за активность и успешные проекты.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">✅</div>
+                    <h3>Верификация навыков</h3>
+                    <p>Подтверждай компетенции через сертификаты и портфолио. Настоящие скиллы, а не слова.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="search-section" id="search">
+            <h2>Поиск проектных партнеров</h2>
+            <div class="search-box">
+                <input type="text" id="search-input" placeholder="Поиск по имени, навыку или вузу...">
+                <select id="role-filter">
+                    <option value="">Все роли</option>
+                    <option value="Лидер">Лидер</option>
+                    <option value="Разработчик">Разработчик</option>
+                    <option value="Дизайнер">Дизайнер</option>
+                    <option value="Аналитик">Аналитик</option>
+                    <option value="Маркетолог">Маркетолог</option>
+                    <option value="Тестировщик">Тестировщик</option>
+                </select>
+                <input type="number" id="rating-filter" placeholder="Мин. рейтинг" min="0" max="10" step="0.1">
+                <button class="btn-primary" onclick="searchUsers()">Искать</button>
+            </div>
+            <div class="users-grid" id="users-container">
+                <p class="placeholder-text">Загрузка пользователей...</p>
+            </div>
+        </section>
+
+        <section class="projects-section" id="projects">
+            <h2>Активные проекты</h2>
+            <div class="projects-grid" id="projects-container">
+                <p class="placeholder-text">Загрузка проектов...</p>
+            </div>
+            <div style="text-align:center;margin-top:20px;">
+                <button class="btn-primary" onclick="showModal('project-modal')">Создать проект</button>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2027 Project-Тим. Платформа для поиска проектных партнеров среди студентов.</p>
+        <p>MVP версия. Сделано с ❤️ для студенческого сообщества.</p>
+    </footer>
+
+    <div class="modal" id="register-modal">
+        <div class="modal-content">
+            <span class="close" onclick="hideModal('register-modal')">&times;</span>
+            <h2>Регистрация</h2>
+            <form id="register-form" onsubmit="registerUser(event)">
+                <input type="text" id="reg-name" placeholder="ФИО" required>
+                <input type="email" id="reg-email" placeholder="Email" required>
+                <input type="text" id="reg-university" placeholder="Университет">
+                <input type="text" id="reg-faculty" placeholder="Факультет">
+                <input type="number" id="reg-course" placeholder="Курс" min="1" max="6">
+                <input type="text" id="reg-skills" placeholder="Навыки (через запятую)">
+                <select id="reg-role">
+                    <option value="">Выберите роль</option>
+                    <option value="Лидер">Лидер</option>
+                    <option value="Разработчик">Разработчик</option>
+                    <option value="Дизайнер">Дизайнер</option>
+                    <option value="Аналитик">Аналитик</option>
+                    <option value="Маркетолог">Маркетолог</option>
+                    <option value="Тестировщик">Тестировщик</option>
+                </select>
+                <textarea id="reg-about" placeholder="О себе"></textarea>
+                <button type="submit" class="btn-primary">Зарегистрироваться</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal" id="project-modal">
+        <div class="modal-content">
+            <span class="close" onclick="hideModal('project-modal')">&times;</span>
+            <h2>Создать проект</h2>
+            <form id="project-form" onsubmit="createProject(event)">
+                <input type="text" id="proj-title" placeholder="Название проекта" required>
+                <textarea id="proj-description" placeholder="Описание проекта" required></textarea>
+                <input type="text" id="proj-skills" placeholder="Требуемые навыки (через запятую)">
+                <input type="text" id="proj-roles" placeholder="Требуемые роли (через запятую)">
+                <button type="submit" class="btn-primary">Создать</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal" id="review-modal">
+        <div class="modal-content">
+            <span class="close" onclick="hideModal('review-modal')">&times;</span>
+            <h2>Оставить отзыв</h2>
+            <form id="review-form" onsubmit="submitReview(event)">
+                <input type="hidden" id="review-reviewee-id">
+                <label>Профессионализм (1-10)</label>
+                <input type="number" id="review-prof" min="1" max="10" required>
+                <label>Соблюдение сроков (1-10)</label>
+                <input type="number" id="review-deadline" min="1" max="10" required>
+                <label>Коммуникация (1-10)</label>
+                <input type="number" id="review-comm" min="1" max="10" required>
+                <textarea id="review-comment" placeholder="Комментарий"></textarea>
+                <button type="submit" class="btn-primary">Отправить</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
