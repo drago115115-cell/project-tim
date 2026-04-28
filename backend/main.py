@@ -163,4 +163,7 @@ def create_review(review: ReviewCreate, reviewer_id: int, db: Session = Depends(
     return {"message": "Отзыв сохранен", "new_rating": reviewee.rating if reviewee else None}
 
 # --- Инициализация БД при запуске ---
-init_db()
+if __name__ == "__main__":
+    init_db()
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=int("8000"))
